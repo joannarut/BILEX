@@ -11,9 +11,9 @@ If you publish work using this script the most relevant publication is:
 
 """
 #Child Id und Altersgruppe kann zur Vorbereitung hier eingegeben werden
-childID = 12345
+childID = "test"
 #ganze Zahl eingeben, Auswahl: 2, 3 oder 4
-childAge = 2
+childAge = 4
 
 
 # --- Import packages ---
@@ -54,7 +54,7 @@ expInfo = {
     'session': '001',
 }
 language_list = os.listdir("sound_files")
-exclude = ["arabic", ".DS_Store"] #exclude certain languages from being used (if for example not all sound files are present)
+exclude = ["arabic", "._.DS_Store",".DS_Store"] #exclude certain languages from being used (if for example not all sound files are present)
 language_list = [x for x in language_list if x not in exclude]
 language_list = sorted(language_list) #sort list alphabetically
 language_list = sorted(language_list, key=lambda x: x not in ['american_english', 'french', 'spanish', 'italian'])
@@ -143,7 +143,8 @@ write_to_file.writerow(['subject_id','language','randomization','time','name_ima
 file_quickAndDirty = open(os.path.join('log_files',"".join([subject_details[0],'_', "quickAndDirty", "_",subject_details[2],'.csv'])),'wt') #open second file
 write_to_quickAndDirty = csv.writer(file_quickAndDirty, delimiter='\t', quoting=csv.QUOTE_NONE)
 write_to_quickAndDirty.writerow([now.strftime("%Y-%m-%d %H:%M")])#adds time and to top of file
-
+curr_part_file.flush()
+file_quickAndDirty.flush()
 
 
 
@@ -971,20 +972,24 @@ for thisTrial in trials:
             trials.finished = True
             missed = missed -1
         if defaultKeyboard.getKeys(keyList=["p"]): #pause trial with p and restart it once p is pressed again
-            while 1:
-                if defaultKeyboard.getKeys(keyList=["p"]):
-                    routineForceEnded = True
-                    # ending Routine
-                    # --- Ending Routine "trial" ---
-                    for thisComponent in trialComponents:
-                        if hasattr(thisComponent, "setAutoDraw"):
-                            thisComponent.setAutoDraw(False)
-                    trial_sound.stop()  # ensure sound has stopped at end of routine
-                    # using non-slip timing so subtract the expected duration of this Routine (unless ended on request)
-                    if routineForceEnded:
-                        routineTimer.reset()
-                    else:
-                        routineTimer.addTime(-max_time)
+            isitpaused = True
+            routineForceEnded = True
+            continueRoutine = False
+            # ending Routine
+            # --- Ending Routine "trial" ---
+            #for thisComponent in trialComponents:
+            #    if hasattr(thisComponent, "setAutoDraw"):
+            #        thisComponent.setAutoDraw(False)
+            #trial_sound.stop()  # ensure sound has stopped at end of routine
+            # using non-slip timing so subtract the expected duration of this Routine (unless ended on request)
+            #if routineForceEnded:
+            #    routineTimer.reset()
+            #else:
+            #    routineTimer.addTime(-max_time)
+            while isitpaused == True: 
+                keys = defaultKeyboard.getKeys()
+                if keys == ["p"]:
+                    routineTimer.reset()
                     #starting Routine
                     continueRoutine = True
                     routineForceEnded = False
@@ -1017,6 +1022,7 @@ for thisTrial in trials:
                     t = 0
                     _timeToFirstFrame = win.getFutureFlipTime(clock="now")
                     frameN = -1
+                    isitpaused = False
                     break
                     
         if defaultKeyboard.getKeys(keyList=["left"]): #restart the trial with left arrow key
@@ -1099,7 +1105,7 @@ for thisTrial in trials:
     #write the results to log file original commented out
     #write_to_file.writerow([subject_details[0],subject_details[2],type,trial_time.getTime(),trial_list.iloc[trial_nr,1],x,y,trial_time.getTime()-word_onset,1])
     write_to_file.writerow([subject_details[0],subject_details[2],type,time, trial_list.iloc[trial_nr,1],thisRoundkorrekt, thisRoundincorrect, thisRoundmissed, trial_mouse.clicked_name, trial_list.iloc[trial_nr, 2]])
-
+    curr_part_file.flush()
 
     # --- Ending Routine "trial" ---
     for thisComponent in trialComponents:
@@ -1136,6 +1142,7 @@ write_to_quickAndDirty.writerow(['Incorrect Items: ',int(incorrect)])
 write_to_quickAndDirty.writerow(['Missed Items: ',int(missed)])
 write_to_quickAndDirty.writerow(['Percentage Correct: ',perc_correct, '%'])
 write_to_quickAndDirty.writerow(['Total Time: ', totalTime])
+file_quickAndDirty.flush()
 
 # --- Initialize components for Routine "confetti" ---
 confetti_image = visual.ImageStim(
@@ -1180,6 +1187,9 @@ t = 0
 _timeToFirstFrame = win.getFutureFlipTime(clock="now")
 frameN = -1
 
+# close the csv files (makes it flush one last time)
+curr_part_file.close()
+file_quickAndDirty.close()
 
 
 # --- Run Routine "confetti" ---
