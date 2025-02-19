@@ -138,7 +138,7 @@ trial_list = pd.read_excel(filename,header=None) # read trial list
 curr_part_file = open(os.path.join('log_files',"".join([subject_details[0],'_',subject_details[2],'.csv'])),'wt') # open experiment file
 write_to_file = csv.writer(curr_part_file, delimiter='\t', quoting=csv.QUOTE_NONE)
 write_to_file.writerow([now.strftime("%Y-%m-%d %H:%M")])#adds time and to top of file
-write_to_file.writerow(['subject_id','language','randomization','time','name_image','ans_correct', 'ans_wrong', 'missed','clicked item', 'correct item']) # write header to file
+write_to_file.writerow(['subject_id','language','randomization','time','name_sound','ans_correct', 'ans_wrong', 'missed','clicked item', 'correct item']) # write header to file
 #same steps for second file quick and dirty
 file_quickAndDirty = open(os.path.join('log_files',"".join([subject_details[0],'_', "quickAndDirty", "_",subject_details[2],'.csv'])),'wt') #open second file
 write_to_quickAndDirty = csv.writer(file_quickAndDirty, delimiter='\t', quoting=csv.QUOTE_NONE)
@@ -1104,7 +1104,7 @@ for thisTrial in trials:
     totalTime = totalTime + time
     #write the results to log file original commented out
     #write_to_file.writerow([subject_details[0],subject_details[2],type,trial_time.getTime(),trial_list.iloc[trial_nr,1],x,y,trial_time.getTime()-word_onset,1])
-    write_to_file.writerow([subject_details[0],subject_details[2],type,time, trial_list.iloc[trial_nr,1],thisRoundkorrekt, thisRoundincorrect, thisRoundmissed, trial_mouse.clicked_name, trial_list.iloc[trial_nr, 2]])
+    write_to_file.writerow([subject_details[0],subject_details[2],type,time, trial_list.iloc[trial_nr,0],thisRoundkorrekt, thisRoundincorrect, thisRoundmissed, trial_mouse.clicked_name, trial_list.iloc[trial_nr, 2]])
     curr_part_file.flush()
 
     # --- Ending Routine "trial" ---
