@@ -1,0 +1,49 @@
+## scale intensity (energy) with output - BCLT1.praat
+## Created by Mark Antoniou
+## C 2010 Northwestern University
+
+##What does this script do?
+##Reads in sound files.
+##Scales the entire soundfile so that the vowel's intensity will now equal dB_target.
+
+#Specify the directory where the original files are located, where the scaled files should be created, and the target dB value.
+form Enter directory and search string
+#Be sure not to forget the slash (Windows: backslash, OSX: forward slash) at the end of the directory name.
+#Out Directory folder must first be created, otherwise it won't work!
+	sentence directory /Users/jrutko/Desktop/BILEX/norming_perceived_loudness/sound_files/turkish/
+
+	sentence outDirectory /Users/jrutko/Desktop/BILEX/norming_perceived_loudness/normalised/turkish/
+
+	sentence filetype .wav
+
+	integer dB_target 60
+
+endform
+
+		   
+#Loop for all files  
+Create Strings as file list... fileList 'directory$'*'filetype$'
+number_of_files = Get number of strings
+for soundfilenumber from 1 to number_of_files
+   
+    #Read in sound file and textgrid
+    select Strings fileList
+    current_file$ = Get string... soundfilenumber
+    dotInd = rindex(current_file$, ".")
+    fileNoextension$ = left$(current_file$, dotInd - 1)
+    Read from file... 'directory$''current_file$'
+    object_name$ = selected$ ("Sound")
+	
+	#Scale the entire sound object
+    Scale intensity... 60
+	
+	#Save the newly scaled soundfile
+    Save as WAV file... 'outDirectory$''object_name$''filetype$'
+
+endfor
+
+#Let the user know that it's all over
+printline ------------------------------------------------
+print All files have been scaled.
+printline This is where you'll find them:
+printline 'outDirectory$'
