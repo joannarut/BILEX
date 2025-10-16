@@ -972,7 +972,7 @@ for thisTrial in trials:
             continueRoutine = False
             trials.finished = True
             missed = missed -1
-        if defaultKeyboard.getKeys(keyList=["p"]): #pause trial with p and restart it once p is pressed again
+        if defaultKeyboard.getKeys(keyList=["p"]): #pause trial with p and restart it once another key is pressed 
             isitpaused = True
             routineForceEnded = True
             continueRoutine = False
