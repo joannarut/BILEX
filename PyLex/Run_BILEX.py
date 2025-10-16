@@ -687,6 +687,7 @@ for thisTrial in trials:
             exec('{} = thisTrial[paramName]'.format(paramName))
     
     # --- Prepare to start Routine "trial" ---
+    win.flip()
     continueRoutine = True
     routineForceEnded = False
     #update image
@@ -987,43 +988,42 @@ for thisTrial in trials:
             #else:
             #    routineTimer.addTime(-max_time)
             while isitpaused == True: 
-                keys = defaultKeyboard.getKeys()
-                if keys == ["p"]:
-                    routineTimer.reset()
-                    #starting Routine
-                    continueRoutine = True
-                    routineForceEnded = False
-                    #update image
-                    image_file = os.path.join("pictures","".join([trial_list.iloc[trial_nr,1],'.jpg']))
-                    #update sound
-                    sound_file = glob.glob(os.path.join("sound_files",subject_details[2],"".join(['??_',trial_list.iloc[trial_nr,0],'.wav'])))[0]
-                    # update component parameters for each repeat
-                    image.setImage(image_file)
-                    trial_sound.setSound(sound_file, secs=max_time, hamming=True)
-                    trial_sound.setVolume(1.0, log=False)
-                    # setup some python lists for storing info about the trial_mouse
-                    trial_mouse.x = []
-                    trial_mouse.y = []
-                    trial_mouse.leftButton = []
-                    trial_mouse.midButton = []
-                    trial_mouse.rightButton = []
-                    trial_mouse.time = []
-                    trial_mouse.clicked_name = []
-                    gotValidClick = False  # until a click is received
-                    # keep track of which components have finished
-                    for thisComponent in trialComponents:
-                        thisComponent.tStart = None
-                        thisComponent.tStop = None
-                        thisComponent.tStartRefresh = None
-                        thisComponent.tStopRefresh = None
-                        if hasattr(thisComponent, 'status'):
-                            thisComponent.status = NOT_STARTED
-                    # reset timers
-                    t = 0
-                    _timeToFirstFrame = win.getFutureFlipTime(clock="now")
-                    frameN = -1
-                    isitpaused = False
-                    break
+                event.waitKeys()
+                routineTimer.reset()
+                #starting Routine
+                continueRoutine = True
+                routineForceEnded = False
+                #update image
+                image_file = os.path.join("pictures","".join([trial_list.iloc[trial_nr,1],'.jpg']))
+                #update sound
+                sound_file = glob.glob(os.path.join("sound_files",subject_details[2],"".join(['??_',trial_list.iloc[trial_nr,0],'.wav'])))[0]
+                # update component parameters for each repeat
+                image.setImage(image_file)
+                trial_sound.setSound(sound_file, secs=max_time, hamming=True)
+                trial_sound.setVolume(1.0, log=False)
+                # setup some python lists for storing info about the trial_mouse
+                trial_mouse.x = []
+                trial_mouse.y = []
+                trial_mouse.leftButton = []
+                trial_mouse.midButton = []
+                trial_mouse.rightButton = []
+                trial_mouse.time = []
+                trial_mouse.clicked_name = []
+                gotValidClick = False  # until a click is received
+                # keep track of which components have finished
+                for thisComponent in trialComponents:
+                    thisComponent.tStart = None
+                    thisComponent.tStop = None
+                    thisComponent.tStartRefresh = None
+                    thisComponent.tStopRefresh = None
+                    if hasattr(thisComponent, 'status'):
+                        thisComponent.status = NOT_STARTED
+                # reset timers
+                t = 0
+                _timeToFirstFrame = win.getFutureFlipTime(clock="now")
+                frameN = -1
+                isitpaused = False
+                break
                     
         if defaultKeyboard.getKeys(keyList=["left"]): #restart the trial with left arrow key
             routineForceEnded = True
